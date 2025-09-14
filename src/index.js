@@ -4,7 +4,7 @@ import { app } from "./app.js";
 
 
 dotenv.config({
-  path:'./env'
+  path:'./.env'
 })
 
 connectDB()//connectDB is wrapped by try catch so it will definetely return a promise.

@@ -26,7 +26,7 @@ const userSchema = new Schema({
   },
   avatar: {
     type: String,
-    required: true,//cloudinary url
+    // required: true,//cloudinary url
   },
   coverImage: {
     type:String
@@ -56,15 +56,17 @@ userSchema.pre("save", async function (next) {//use function not callback as cal
   if (!this.isModified("password")) {
     return next()
   }
-  this.password = bcrypt.hash(this.password, 10)//hasing the password and 10 is the number of rounds
+  this.password = await bcrypt.hash(this.password, 10)//hasing the password and 10 is the number of rounds
   next()
 })
 
 userSchema.methods.isPasswordCorrect = async function (password) {
+  console.log("enteredPassword:", password);
+  console.log("storedPassword:", this.password);
   return await bcrypt.compare(password, this.password);
 }
 
-userSchema.methods.generateAccessToken = async function () {
+userSchema.methods.generateAccessToken = function () {
   return jwt.sign(
     {
       _id: this._id,
@@ -78,7 +80,7 @@ userSchema.methods.generateAccessToken = async function () {
     }
   );
 }
-userSchema.methods.generateRefreshToken = async function () {
+userSchema.methods.generateRefreshToken = function () {
     return jwt.sign(
       {
         _id: this._id

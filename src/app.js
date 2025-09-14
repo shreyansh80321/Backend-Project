@@ -14,4 +14,9 @@ app.use(express.static("public"))//used to store static files(like image, video)
 
 app.use(cookieParser()); // To parse(it means converting it into a usable format like an object) cookies sent by the client (browser) so they can be accessed on the server via req.cookies
 
+import userRouter from './routes/user.routes.js'
+
+app.use("/api/v1/users",userRouter)
+
+
 export { app };
